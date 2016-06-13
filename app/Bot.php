@@ -6,6 +6,7 @@ class Bot
 
     public function generateHash()
     {
+        var_dump($this->data);
     }
 }
 
