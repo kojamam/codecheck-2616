@@ -6,7 +6,7 @@ class Bot
 
     public $command, $data, $hash;
 
-    public __construct($data){
+    public function __construct($data){
             $this->command = $data["command"];
             $this->data = $data["data"];
 
