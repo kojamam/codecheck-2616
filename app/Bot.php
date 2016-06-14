@@ -7,14 +7,16 @@ class Bot
     public $command, $data, $hash;
 
     public function __construct($data){
-            $this->command = $data["command"];
-            $this->data = $data["data"];
+        /* メンバを設定 */
+        $this->command = $data["command"];
+        $this->data = $data["data"];
 
-            return;
+        return;
     }
 
     public function generateHash()
     {
+        /* 文字ごとにASCII値が入った配列を生成 */
         $commandArr = str_split($this->command);
         $dataArr = str_split($this->data);
 
@@ -25,9 +27,11 @@ class Bot
             $dataArr[$key] = ord($value);
         }
 
+        /* 連結して文字列にする(22桁以上は桁以上は指数表記に変える) */
         $commandNumStr = scientificNotation((float)implode($commandArr));
         $dataNumStr = scientificNotation((float)implode($dataArr));
 
+        /* 指数表記である時、".""から"e+"までと"e+"から後を連結 */
         if(preg_match("/e\+/", $commandNumStr)){
             $t = explode("e+", explode(".", $commandNumStr)[1]);
             $t[0] = ltrim($t[0], "0");
@@ -40,7 +44,8 @@ class Bot
             $dataNumStr = implode($t);
         }
 
-        $num = (double)$commandNumStr + (double)($dataNumStr);
+        /* commandとdataを足してハッシュを求める */
+        $num = (int)$commandNumStr + $dataNumStr;
         $this->hash = dechex($num);
 
         return;
