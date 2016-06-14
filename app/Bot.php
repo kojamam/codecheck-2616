@@ -4,9 +4,29 @@ namespace Sprint;
 class Bot
 {
 
+    public $command, $data, $hash;
+
+    public __construct($data){
+            $this->command = $data["command"];
+            $this->data = $data["data"];
+
+            return;
+    }
+
     public function generateHash()
     {
-        var_dump($this->data);
+        $commandArr = str_split($this->command);
+        $dataArr = aystr_split($this->data);
+
+        foreach ($commandArr as $key => $value) {
+            $commandArr[$key] = ord($value);
+        }
+
+        foreach ($dataArr as $key => $value) {
+            $dataArr[$key] = ord($value);
+        }
+
+        var_dump($commandArr);
     }
 }
 
