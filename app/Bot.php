@@ -16,17 +16,30 @@ class Bot
     public function generateHash()
     {
         $commandArr = str_split($this->command);
-        $dataArr = aystr_split($this->data);
+        $dataArr = str_split($this->data);
 
         foreach ($commandArr as $key => $value) {
             $commandArr[$key] = ord($value);
         }
-
         foreach ($dataArr as $key => $value) {
             $dataArr[$key] = ord($value);
         }
 
-        var_dump($commandArr);
+        $num = (float)implode($commandArr) + (float)implode($dataArr);
+
+        $numStr = scientificNotation($num);
+
+        if(preg_mutch("/e\+/", $numStr)){
+            $t = explode("e+", explode(".", $numStr)[1]);
+            $t[0] = ltrim($t[0], "0");
+            $num = (float)implode($t);
+        }else{
+            $num = (float)$numStr;
+        }
+
+        $this->hash = dechex($num);
+
+        return;
     }
 }
 
