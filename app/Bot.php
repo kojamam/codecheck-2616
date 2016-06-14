@@ -25,18 +25,22 @@ class Bot
             $dataArr[$key] = ord($value);
         }
 
-        $num = (float)implode($commandArr) + (float)implode($dataArr);
+        $commandNumStr = scientificNotation((float)implode($commandArr));
+        $dataNumStr = scientificNotation((float)implode($dataArr));
 
-        $numStr = scientificNotation($num);
-
-        if(preg_mutch("/e\+/", $numStr)){
-            $t = explode("e+", explode(".", $numStr)[1]);
+        if(preg_match("/e\+/", $commandNumStr)){
+            $t = explode("e+", explode(".", $commandNumStr)[1]);
             $t[0] = ltrim($t[0], "0");
-            $num = (float)implode($t);
-        }else{
-            $num = (float)$numStr;
+            $commandNumStr = implode($t);
         }
 
+        if(preg_match("/e\+/", $dataNumStr)){
+            $t = explode("e+", explode(".", $dataNumStr)[1]);
+            $t[0] = ltrim($t[0], "0");
+            $dataNumStr = implode($t);
+        }
+
+        $num = (double)$commandNumStr + (double)($dataNumStr);
         $this->hash = dechex($num);
 
         return;
